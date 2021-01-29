@@ -1,3 +1,2 @@
 # PythonSnake
-An advanced Snake game made with Python
-Midyear project
+An advanced Snake game made with Python.
