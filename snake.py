@@ -11,3 +11,14 @@ class Snake():
         self.direction = start_direction
         self.color = color
 
+
+
+    def controls(self):
+        self.left = 
+        self.right = 
+        
+
+
+    def movement(self):
+        self.speed = 
+
