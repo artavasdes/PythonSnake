@@ -1,7 +1,7 @@
 #Snake object
 class Snake():
 
-    def __init__(self, color, start_direction):
+    def __init__(self, color, start_direction, screen):
         #maybe make color customizable by player later
         self.x = 0
         self.y = 0
@@ -11,6 +11,7 @@ class Snake():
         self.direction = start_direction
         self.color = color
         self.head_coords = self.positions[0]
+        self.screen = screen
 
     def move(self, direction):
 
