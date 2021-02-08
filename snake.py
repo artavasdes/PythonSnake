@@ -26,6 +26,11 @@ class Snake():
         
         self.positions.insert(0, self.head_coords)
 
+    def draw(self):
+        #to do once grid/area is complete:
+        #draw the snake based on its positions
+        pass
+
 
 
     def controls(self):
