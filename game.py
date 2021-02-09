@@ -21,13 +21,20 @@ pygame.init()
 dis=pygame.display.set_mode((DISPLAYX, DISPLAYY))
 pygame.display.update()
 pygame.display.set_caption("Snake game by Joshua Kim and Vartan Yildiz")
-<<<<<<< HEAD
-game_over=False
-while not game_over:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            game_over = True
-        if event.type == pygame.KEYDOWN:
+
+# game_over=False
+
+def game_loop():
+
+    #Create new snake
+    snake_obj = Snake(BLUE, "RIGHT", dis, BOX_SIZE)
+    #Create new apple
+    apple = Apple(RED, dis, BOX_SIZE)
+    while True:
+        for event in pygame.event.get():
+            
+            if event.type == pygame.KEYDOWN:
+                pass
             if event.key == pygame.K_LEFT:
                 x1_change = -10
                 y1_change = 0
@@ -40,23 +47,6 @@ while not game_over:
             elif event.key == pygame.K_DOWN:
                 y1_change = 10
                 x1_change = 0
-        
-        print(event)   #prints out all the actions that take place on the screen
- 
-pygame.quit()
-quit()
-=======
-# game_over=False
-
-def game_loop():
-
-    #Create new snake
-    snake_obj = Snake(BLUE, "RIGHT", dis, BOX_SIZE)
-    #Create new apple
-    apple = Apple(RED, dis, BOX_SIZE)
-    while True:
-        for event in pygame.event.get():
-            
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
@@ -100,4 +90,3 @@ def main():
         game_loop()
 
 main()
->>>>>>> 109f2aeef3b54a4d8ad411c590a41655b5e5faea
