@@ -13,9 +13,15 @@ WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
 
 FPS = 20
-BOX_SIZE = 30
-DISPLAYX = 540
-DISPLAYY = 540
+BOX_SIZE = 25
+DISPLAYX = 425
+DISPLAYY = 425
+
+#DIRECTIONS
+UP = "UP"
+DOWN = "DOWN"
+LEFT = "LEFT"
+RIGHT = "RIGHT"
 
 pygame.init()
 dis=pygame.display.set_mode((DISPLAYX, DISPLAYY))
@@ -34,20 +40,21 @@ def game_loop():
         for event in pygame.event.get():
             
             if event.type == pygame.KEYDOWN:
-                pass
-            if event.key == pygame.K_LEFT:
-                x1_change = -10
-                y1_change = 0
-            elif event.key == pygame.K_RIGHT:
-                x1_change = 10
-                y1_change = 0
-            elif event.key == pygame.K_UP:
-                y1_change = -10
-                x1_change = 0
-            elif event.key == pygame.K_DOWN:
-                y1_change = 10
-                x1_change = 0
-            if event.type == pygame.QUIT:
+                
+                if event.key == K_LEFT:
+                    if snake_obj.direction != RIGHT:
+                        snake_obj.direction = LEFT
+
+                elif event.key == K_RIGHT:
+                    x1_change = 10
+                    y1_change = 0
+                elif event.key == K_UP:
+                    y1_change = -10
+                    x1_change = 0
+                elif event.key == K_DOWN:
+                    y1_change = 10
+                    x1_change = 0
+            elif event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
         

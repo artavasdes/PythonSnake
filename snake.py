@@ -5,8 +5,8 @@ class Snake():
 
     def __init__(self, color, start_direction, screen, box_size):
         #maybe make color customizable by player later
-        self.x = 250
-        self.y = 250
+        self.x = 75
+        self.y = 200
 
         self.positions = [(self.x, self.y), (self.x - box_size, self.y), (self.x - box_size * 2, self.y)]
         self.direction = start_direction

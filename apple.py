@@ -7,7 +7,7 @@ class Apple():
     def __init__(self, color, screen, box_size):
         self.screen = screen
         self.color = color
-        self.position = (400, 250)
+        self.position = (275, 200)
         self.box_size = box_size
     
     def place_on_grid(self, gridx, gridy):
