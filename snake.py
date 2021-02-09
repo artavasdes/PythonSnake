@@ -1,17 +1,19 @@
 #Snake object
+import pygame
+from pygame.locals import *
 class Snake():
 
-    def __init__(self, color, start_direction, screen):
+    def __init__(self, color, start_direction, screen, box_size):
         #maybe make color customizable by player later
-        self.x = 0
-        self.y = 0
-        #^to do: generate random coords for snake based on grid
+        self.x = 270
+        self.y = 270
 
-        self.positions = [(self.x, self.y), (self.x - 1, self.y - 1), (self.x - 2, self.y - 2)]
+        self.positions = [(self.x, self.y), (self.x - box_size, self.y), (self.x - box_size * 2, self.y)]
         self.direction = start_direction
         self.color = color
         self.head_coords = self.positions[0]
         self.screen = screen
+        self.box_size = box_size
 
     def move(self, direction):
 
@@ -29,16 +31,18 @@ class Snake():
     def draw(self):
         #to do once grid/area is complete:
         #draw the snake based on its positions
-        pass
+        for segment in range(len(self.positions)):
+           box = pygame.Rect(self.positions[segment][0], self.positions[segment][1], self.box_size, self.box_size)
+           pygame.draw.rect(self.screen, self.color, box)
 
 
 
-    def controls(self):
-        self.left = 
-        self.right = 
+    # def controls(self):
+    #     self.left = 
+    #     self.right = 
         
 
 
-    def movement(self):
-        self.speed = 
+    # def movement(self):
+    #     self.speed = 
 
