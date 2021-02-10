@@ -23,8 +23,10 @@ DOWN = "DOWN"
 LEFT = "LEFT"
 RIGHT = "RIGHT"
 
+
 pygame.init()
 dis=pygame.display.set_mode((DISPLAYX, DISPLAYY))
+CLOCK = pygame.time.Clock()
 pygame.display.update()
 pygame.display.set_caption("Snake game by Joshua Kim and Vartan Yildiz")
 
@@ -44,28 +46,40 @@ def game_loop():
                 if event.key == K_LEFT:
                     if snake_obj.direction != RIGHT:
                         snake_obj.direction = LEFT
+                        
 
                 elif event.key == K_RIGHT:
-                    x1_change = 10
-                    y1_change = 0
+                    if snake_obj.direction != LEFT:
+                        snake_obj.direction = RIGHT
+                        
                 elif event.key == K_UP:
-                    y1_change = -10
-                    x1_change = 0
+                    if snake_obj.direction != DOWN:
+                        snake_obj.direction = UP
+                        
                 elif event.key == K_DOWN:
-                    y1_change = 10
-                    x1_change = 0
+                    if snake_obj.direction != UP:
+                        snake_obj.direction = DOWN
+                        
             elif event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        
 
         
-        dis.fill(BLACK)
+        if snake_obj.direction == LEFT:
+            snake_obj.move(LEFT)
+        elif snake_obj.direction == RIGHT:
+            snake_obj.move(RIGHT)
+        elif snake_obj.direction == UP:
+            snake_obj.move(UP)
+        elif snake_obj.direction == DOWN:
+            snake_obj.move(DOWN)
+        del(snake_obj.positions[-1])
+
         draw_game_area()
         snake_obj.draw()
         apple.draw()
         pygame.display.update()
-
+        CLOCK.tick(FPS)
 def draw_game_area():
     #Loop through all the rows and corresponding columns to create "boxes"/grids 
     #on the play-area via Pygame rect objects.

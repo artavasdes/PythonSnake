@@ -17,14 +17,15 @@ class Snake():
 
     def move(self, direction):
 
+        
         if direction == 'UP':
-            self.head_coords = (self.head_coords[0], self.head_coords[1] - 1)
+            self.head_coords = (self.head_coords[0], self.head_coords[1] - self.box_size)
         elif direction == "DOWN":
-            self.head_coords = (self.head_coords[0], self.head_coords[1] + 1)
+            self.head_coords = (self.head_coords[0], self.head_coords[1] + self.box_size)
         elif direction == "RIGHT":
-            self.head_coords = (self.head_coords[0] + 1, self.head_coords[1])
+            self.head_coords = (self.head_coords[0] + self.box_size, self.head_coords[1])
         elif direction == "LEFT":
-            self.head_coords = (self.head_coords[0] - 1, self.head_coords[1])
+            self.head_coords = (self.head_coords[0] - self.box_size, self.head_coords[1])
         
         self.positions.insert(0, self.head_coords)
 
