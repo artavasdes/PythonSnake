@@ -12,6 +12,7 @@ class Snake():
         self.direction = start_direction
         self.color = color
         self.head_coords = self.positions[0]
+        self.tail_coords = self.positions[-1]
         self.screen = screen
         self.box_size = box_size
 
@@ -38,7 +39,12 @@ class Snake():
            box = pygame.Rect(self.positions[segment][0], self.positions[segment][1], self.box_size, self.box_size)
            pygame.draw.rect(self.screen, self.color, box)
 
-
+    def eat_apple(self, apple):
+        if self.head_coords == apple.position:
+            #apple has been eaten
+            return True
+        else:
+            return False
 
     # def controls(self):
     #     self.left = 

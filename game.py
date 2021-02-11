@@ -32,6 +32,7 @@ pygame.display.set_caption("Snake game by Joshua Kim and Vartan Yildiz")
 
 # game_over=False
 
+
 def game_loop():
 
     #Create new snake
@@ -67,14 +68,23 @@ def game_loop():
         
         if snake_obj.direction == LEFT:
             snake_obj.move(LEFT)
+            
         elif snake_obj.direction == RIGHT:
             snake_obj.move(RIGHT)
         elif snake_obj.direction == UP:
             snake_obj.move(UP)
         elif snake_obj.direction == DOWN:
             snake_obj.move(DOWN)
-        del(snake_obj.positions[-1])
 
+        
+        
+        if snake_obj.eat_apple(apple):
+            apple.place_on_grid(DISPLAYX, DISPLAYY)
+
+        else:
+            del(snake_obj.positions[-1])
+
+        
         draw_game_area()
         snake_obj.draw()
         apple.draw()
