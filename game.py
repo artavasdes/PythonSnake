@@ -66,6 +66,8 @@ def game_loop():
         
         if self.collision_check() == True:
             game_Over = True
+        else:
+            game_Over = False
 
         
         if snake_obj.direction == LEFT:
@@ -110,11 +112,11 @@ def collision_check():
     #Checks for collision with world borders.
 
     if snake_object.positions[0] < 0:
-        return True
+        self.game_Over = True #return True
     if snake_object.positions[0] > 425:
-        return True
+        self.game_Over = True #return True
     else:
-        return False
+        self.game_Over = False #return False
     
 
 def main():
