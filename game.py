@@ -63,6 +63,9 @@ def game_loop():
             elif event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+        
+        if self.collision_check() == True:
+            game_Over = True
 
         
         if snake_obj.direction == LEFT:
@@ -103,7 +106,16 @@ def draw_game_area():
                 pygame.draw.rect(dis, DARKGREEN, grid_box)
     
     
+def collision_check():
+    #Checks for collision with world borders.
 
+    if snake_object.positions[0] < 0:
+        return True
+    if snake_object.positions[0] > 425:
+        return True
+    else:
+        return False
+    
 
 def main():
 
