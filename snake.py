@@ -33,8 +33,7 @@ class Snake():
     
 
     def draw(self):
-        #to do once grid/area is complete:
-        #draw the snake based on its positions
+        '''draws the snake based on its positions'''
         for segment in range(len(self.positions)):
            box = pygame.Rect(self.positions[segment][0], self.positions[segment][1], self.box_size, self.box_size)
            pygame.draw.rect(self.screen, self.color, box)
@@ -46,12 +45,4 @@ class Snake():
         else:
             return False
 
-    # def controls(self):
-    #     self.left = 
-    #     self.right = 
-        
-
-
-    # def movement(self):
-    #     self.speed = 
 
