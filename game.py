@@ -11,6 +11,7 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
+FONT = "freesansbold.ttf"
 
 FPS = 20
 BOX_SIZE = 25
@@ -40,7 +41,7 @@ def game_loop():
     #Create new snake
     snake_obj = Snake(BLUE, "RIGHT", dis, BOX_SIZE)
     #Create new apple
-    apple = Apple(RED, dis, BOX_SIZE)
+    apple = Apple(RED, dis, BOX_SIZE, snake_obj)
     while True:
         for event in pygame.event.get():
             
@@ -68,6 +69,7 @@ def game_loop():
                 sys.exit()
         
         if collision_check(snake_obj) == True:
+            game_over()
             return
 
         
@@ -148,10 +150,25 @@ def collision_check(snake_obj):
     else:
         return False
     
+def game_over():
+    
+    font = pygame.font.Font(FONT, 60)
+    font_surface = font.render("Game Over!", True, WHITE)
+    rect_font = font_surface.get_rect()
+    rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 2))
+    dis.blit(font_surface, rect_font)
+    pygame.display.update()
 
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        
+        CLOCK.tick(FPS)
 def main():
 
     while True:
         game_loop()
-
+    
 main()
