@@ -97,6 +97,8 @@ def game_loop():
         #textRect = text.get_rect()
         #textRect.center = (425 // 2, 425 // 2)
 
+        #Try using message for counter overlay
+
 
         
 
