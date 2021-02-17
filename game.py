@@ -119,7 +119,7 @@ def draw_game_area():
 def collision_check(snake_obj):
     #Checks for collision with world borders.
 
-    if snake_obj.head_coords[0] <= 0 or snake_obj.head_coords[1] <= 0:
+    if snake_obj.head_coords[0] < 0 or snake_obj.head_coords[1] < 0:
 
         return True
     if snake_obj.head_coords[0] >= 425 or snake_obj.head_coords[1] >= 425:
