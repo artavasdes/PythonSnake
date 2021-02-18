@@ -33,6 +33,19 @@ pygame.display.set_caption("Snake game by Joshua Kim and Vartan Yildiz")
 
 # game_over=False
 
+#font_style = pygame.font.SysFont(None, 50)
+#
+#def message(msg,color):
+#    mesg = font_style.render(msg, True, color)
+#    dis.blit(mesg, [DISPLAYX/2, DISPLAYY/2])
+
+
+count_font = pygame.font.SysFont("freesansbold.ttf", 35)
+
+def apple_count():
+    value = count_font.render("Score: " + str(count), True, yellow)
+    dis.blit(value, [0, 0])
+
 
 
 
@@ -43,6 +56,12 @@ def game_loop():
     #Create new apple
     apple = Apple(RED, dis, BOX_SIZE, snake_obj)
     while True:
+
+
+        #count = len(snake_obj.positions) - 1    
+        apple_count(len(snake_obj.positions) - 1)
+        pygame.display.update()
+
         for event in pygame.event.get():
             
             if event.type == pygame.KEYDOWN:
@@ -83,11 +102,11 @@ def game_loop():
         elif snake_obj.direction == DOWN:
             snake_obj.move(DOWN)
 
-        applecount = 0
+        #applecount = 0
         
         if snake_obj.eat_apple(apple):
             apple.place_on_grid(DISPLAYX, DISPLAYY)
-            applecount += 1
+            #applecount += 1
 
         else:
             del(snake_obj.positions[-1])
@@ -101,7 +120,7 @@ def game_loop():
 
 
         
-
+        #message(applecount, RED)
 
 
 
