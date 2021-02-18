@@ -24,6 +24,8 @@ DOWN = "DOWN"
 LEFT = "LEFT"
 RIGHT = "RIGHT"
 
+#Score
+SCORE = 0
 
 pygame.init()
 dis=pygame.display.set_mode((DISPLAYX, DISPLAYY))
@@ -42,14 +44,17 @@ pygame.display.set_caption("Snake game by Joshua Kim and Vartan Yildiz")
 
 count_font = pygame.font.SysFont("freesansbold.ttf", 35)
 
-def apple_count():
-    value = count_font.render("Score: " + str(count), True, yellow)
+def apple_count(count):
+    value = count_font.render("Score: " + str(count), True, WHITE)
     dis.blit(value, [0, 0])
 
 
 
 
+
 def game_loop():
+
+    global SCORE
 
     #Create new snake
     snake_obj = Snake(BLUE, "RIGHT", dis, BOX_SIZE)
@@ -58,9 +63,9 @@ def game_loop():
     
     while True:
 
-
+        apple_count(SCORE)
         #count = len(snake_obj.positions) - 1    
-        apple_count(len(snake_obj.positions) - 1)
+        
         pygame.display.update()
 
         for event in pygame.event.get():
@@ -89,6 +94,7 @@ def game_loop():
                 sys.exit()
         
         if collision_check(snake_obj) == True:
+            SCORE = 0
             game_over()
             return
 
@@ -107,6 +113,9 @@ def game_loop():
         
         if snake_obj.eat_apple(apple):
             apple.place_on_grid(DISPLAYX, DISPLAYY)
+            SCORE += 1
+            apple_count(SCORE)
+            
             #applecount += 1
 
         else:
