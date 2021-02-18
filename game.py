@@ -40,6 +40,7 @@ def game_loop():
     snake_obj = Snake(BLUE, "RIGHT", dis, BOX_SIZE)
     #Create new apple
     apple = Apple(RED, dis, BOX_SIZE, snake_obj)
+    
     while True:
         for event in pygame.event.get():
             
@@ -136,14 +137,24 @@ def collision_check(snake_obj):
             return True
     else:
         return False
-    
-def game_over():
-    
+
+
+def start_screen():
+
     font = pygame.font.Font(FONT, 60)
-    font_surface = font.render("Game Over!", True, WHITE)
+    play_font = pygame.font.Font(FONT, 30)
+
+    font_surface = font.render("SNAKE", True, WHITE)
+    play_surface = play_font.render("Press P to Play", True, WHITE)
+
     rect_font = font_surface.get_rect()
+    play_rect_font = play_surface.get_rect()
+
     rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 2))
+    play_rect_font.center = ((DISPLAYX / 1.95), (DISPLAYY / 1.65))
+
     dis.blit(font_surface, rect_font)
+    dis.blit(play_surface, play_rect_font)
     pygame.display.update()
 
     while True:
@@ -151,11 +162,45 @@ def game_over():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == K_p:
+                    game_loop()
         
+        CLOCK.tick(FPS)
+    
+def game_over():
+    
+    font = pygame.font.Font(FONT, 60)
+    play_font = pygame.font.Font(FONT, 30)
+
+    font_surface = font.render("GAME OVER", True, WHITE)
+    play_surface = play_font.render("Press P to play again", True, WHITE)
+
+    rect_font = font_surface.get_rect()
+    play_rect_font = play_surface.get_rect()
+
+    rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 2.5))
+    play_rect_font.center = ((DISPLAYX / 1.95), (DISPLAYY / 1.75))
+
+    dis.blit(font_surface, rect_font)
+    dis.blit(play_surface, play_rect_font)
+    pygame.display.update()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    game_loop()
         CLOCK.tick(FPS)
 def main():
 
+    
     while True:
-        game_loop()
+        start_screen()
+        # game_loop()
     
 main()
