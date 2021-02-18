@@ -177,9 +177,11 @@ def start_screen():
 
     font = pygame.font.Font(FONT, 60)
     play_font = pygame.font.Font(FONT, 30)
+    
 
     font_surface = font.render("SNAKE", True, WHITE)
     play_surface = play_font.render("Press P to Play", True, WHITE)
+
 
     rect_font = font_surface.get_rect()
     play_rect_font = play_surface.get_rect()
@@ -190,6 +192,19 @@ def start_screen():
     dis.blit(font_surface, rect_font)
     dis.blit(play_surface, play_rect_font)
     pygame.display.update()
+
+
+    #difficulty_main_font = pygame.font.Font(FONT, 20)
+    #difficulty_font = pygame.font.Font(FONT, 15)
+#
+    #difficulty_surface = difficulty_main_font.render("Select Difficulty (changes speed)", True, WHITE)
+#
+    #start_button = pygame.draw.rect(screen,(0,0,240),(150,90,100,50));
+    
+
+
+
+
 
     while True:
         for event in pygame.event.get():
