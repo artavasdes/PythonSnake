@@ -11,12 +11,13 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
 FONT = "freesansbold.ttf"
 
-FPS = 20
-BOX_SIZE = 25
-DISPLAYX = 425
-DISPLAYY = 425
+FPS = 15
+BOX_SIZE = 35
+DISPLAYX = 455
+DISPLAYY = 455
 
 #DIRECTIONS
 UP = "UP"
@@ -26,6 +27,8 @@ RIGHT = "RIGHT"
 
 #Score
 SCORE = 0
+HIGHSCORE = 0
+
 
 pygame.init()
 dis=pygame.display.set_mode((DISPLAYX, DISPLAYY))
@@ -46,9 +49,21 @@ count_font = pygame.font.SysFont("freesansbold.ttf", 35)
 
 def apple_count(count):
     value = count_font.render("Score: " + str(count), True, WHITE)
+    high_score_value = count_font.render("Best: " + str(get_high_score()), True, WHITE)
     dis.blit(value, [0, 0])
+    dis.blit(high_score_value, [0, BOX_SIZE])
 
+def get_high_score():
+    score_file = open("highscore.txt")
+    high_score = 0
+    for line in score_file:
+        high_score = line
+    return int(high_score)
 
+def set_high_score(score):
+    file_write = open("highscore.txt", "w")
+    file_write.write(str(score))
+    file_write.close()
 
 
 
@@ -63,7 +78,7 @@ def game_loop():
     
     while True:
 
-        apple_count(SCORE)
+        
         #count = len(snake_obj.positions) - 1    
         
         pygame.display.update()
@@ -114,8 +129,12 @@ def game_loop():
         if snake_obj.eat_apple(apple):
             apple.place_on_grid(DISPLAYX, DISPLAYY)
             SCORE += 1
-            apple_count(SCORE)
             
+
+            #Check if score is a high score
+            if SCORE > get_high_score():
+                set_high_score(SCORE)
+            apple_count(SCORE)
             #applecount += 1
 
         else:
@@ -137,6 +156,8 @@ def game_loop():
         draw_game_area()
         snake_obj.draw()
         apple.draw()
+        apple_count(SCORE)
+ 
         pygame.display.update()
         CLOCK.tick(FPS)
 def draw_game_area():
@@ -194,16 +215,20 @@ def start_screen():
 
     font_surface = font.render("SNAKE", True, WHITE)
     play_surface = play_font.render("Press P to Play", True, WHITE)
+    score_surface = play_font.render("High Score: " + str(get_high_score()), True, YELLOW)
 
 
     rect_font = font_surface.get_rect()
     play_rect_font = play_surface.get_rect()
+    score_rect = score_surface.get_rect()
 
     rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 2))
-    play_rect_font.center = ((DISPLAYX / 1.95), (DISPLAYY / 1.65))
-
+    play_rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 1.65))
+    score_rect.center = ((DISPLAYX / 2), (DISPLAYY / 1.45))
+    draw_game_area()
     dis.blit(font_surface, rect_font)
     dis.blit(play_surface, play_rect_font)
+    dis.blit(score_surface, score_rect)
     pygame.display.update()
 
 
@@ -306,7 +331,6 @@ def game_over():
         CLOCK.tick(FPS)
 def main():
 
-    
     while True:
         start_screen()
         # game_loop()
