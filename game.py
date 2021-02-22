@@ -138,7 +138,9 @@ def game_loop():
             #applecount += 1
 
         else:
-            del(snake_obj.positions[-1])
+            snake_obj.positions.remove(snake_obj.positions[-1])
+            snake_obj.tail_coords = snake_obj.positions[-1]
+
 
         #font = pygame.font.Font("freesansbold.ttf", 18)
         #text = font.render(applecount, True, green, blue)
