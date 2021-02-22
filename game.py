@@ -263,39 +263,39 @@ def start_screen():
     
     #Easy button
     if 150+100 > mouse[0] > 150 and 450+50 > mouse[1] > 450:
-        pygame.draw.rect(gameDisplay, LIGHTGREEN,(150,450,100,50))
+        pygame.draw.rect(dis, LIGHTGREEN,(150,450,100,50))
         #if click[0] == 1:
             #speed change
     else:
-        pygame.draw.rect(gameDisplay, GREEN,(150,450,100,50))
+        pygame.draw.rect(dis, GREEN,(150,450,100,50))
     
     easy_font = pygame.font.Font("freesansbold.ttf", 15)
     textSurf, textRect = text_objects("Easy", easy_font)
     textRect.center = ((150+50), (450 + 25))
-    gameDisplay.blit(textSurf, textRect)
+    dis.blit(textSurf, textRect)
     
     
     #Normal Button
     if 350+100 > mouse[0] > 350 and 450+50 > mouse[1] > 450:
-        pygame.draw.rect(gameDisplay, LIGHTBLUE,(350,450,100,50))
+        pygame.draw.rect(dis, LIGHTBLUE,(350,450,100,50))
     else:
-        pygame.draw.rect(gameDisplay, BLUE,(350,450,100,50))
+        pygame.draw.rect(dis, BLUE,(350,450,100,50))
     
     normal_font = pygame.font.Font("freesansbold.ttf", 15)
     textSurf, textRect = text_objects("Normal", normal_font)
     textRect.center = ((350+50), (450 + 25))
-    gameDisplay.blit(textSurf, textRect)
+    dis.blit(textSurf, textRect)
     
     #Hard Button
     if 550+100 > mouse[0] > 550 and 450+50 > mouse[1] > 450:
-        pygame.draw.rect(gameDisplay, LIGHTRED,(550,450,100,50))
+        pygame.draw.rect(dis, LIGHTRED,(550,450,100,50))
     else:
-        pygame.draw.rect(gameDisplay, RED,(550,450,100,50))
+        pygame.draw.rect(dis, RED,(550,450,100,50))
     
     normal_font = pygame.font.Font("freesansbold.ttf", 15)
     textSurf, textRect = text_objects("Hard", normal_font)
     textRect.center = ((350+50), (450 + 25))
-    gameDisplay.blit(textSurf, textRect)
+    dis.blit(textSurf, textRect)
     
     #Buttons end
 
