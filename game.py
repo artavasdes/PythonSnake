@@ -7,10 +7,13 @@ from apple import *
 #Setup some constants/colors
 DARKGREEN = (162, 209, 73)
 LIGHTGREEN = (170, 215, 81)
+GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+LIGHTRED = (240, 120, 120)
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
+LIGHTBLUE = (120, 240, 120)
 YELLOW = (255, 255, 0)
 FONT = "freesansbold.ttf"
 
@@ -205,7 +208,7 @@ def collision_check(snake_obj):
         return False
 
 def text_objects(text, font):
-    textsurface = font.render(text, True, black)
+    textsurface = font.render(text, True, BLACK)
     return textsurface, textsurface.get_rect()
 
 
