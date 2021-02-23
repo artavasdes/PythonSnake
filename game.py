@@ -301,6 +301,7 @@ def start_screen():
     textSurf, textRect = text_objects("Hard", normal_font)
     textRect.center = ((350+50), (450 + 25))
     dis.blit(textSurf, textRect)
+    pygame.display.update()
     
     #Buttons end
 
