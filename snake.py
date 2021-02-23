@@ -17,16 +17,20 @@ class Snake():
         self.box_size = box_size
 
         #Graphics
-        self.snake_end_left = pygame.image.load("snake_end_left.png")
-        self.snake_end_right = pygame.image.load("snake_end_right.png")
-        self.snake_end_up = pygame.image.load("snake_end_up.png")
-        self.snake_end_down = pygame.image.load("snake_end_down.png")
-        self.snake_segment_horizontal = pygame.image.load("snake_segment_horizontal.png")
-        self.snake_segment_vertical = pygame.image.load("snake_segment_vertical.png")
-        self.corner_1 = pygame.image.load("snake_corner_1.png")
-        self.corner_2 = pygame.image.load("snake_corner_2.png")
-        self.corner_3 = pygame.image.load("snake_corner_3.png")
-        self.corner_4 = pygame.image.load("snake_corner_4.png")
+        self.head_up = self.head_down = pygame.image.load("graphics/red_snake/snake_head_up.png")
+        self.head_down = pygame.image.load("graphics/red_snake/snake_head_down.png")
+        self.head_left = pygame.image.load("graphics/red_snake/snake_head_left.png")
+        self.head_right = pygame.image.load("graphics/red_snake/snake_head_right.png")
+        self.snake_end_left = pygame.image.load("graphics/red_snake/snake_end_left.png")
+        self.snake_end_right = pygame.image.load("graphics/red_snake/snake_end_right.png")
+        self.snake_end_up = pygame.image.load("graphics/red_snake/snake_end_up.png")
+        self.snake_end_down = pygame.image.load("graphics/red_snake/snake_end_down.png")
+        self.snake_segment_horizontal = pygame.image.load("graphics/red_snake/snake_segment_horizontal.png")
+        self.snake_segment_vertical = pygame.image.load("graphics/red_snake/snake_segment_vertical.png")
+        self.corner_1 = pygame.image.load("graphics/red_snake/snake_corner_1.png")
+        self.corner_2 = pygame.image.load("graphics/red_snake/snake_corner_2.png")
+        self.corner_3 = pygame.image.load("graphics/red_snake/snake_corner_3.png")
+        self.corner_4 = pygame.image.load("graphics/red_snake/snake_corner_4.png")
 
 
     def move(self, direction):
@@ -53,13 +57,13 @@ class Snake():
 
         #Draw the head
         if self.direction == 'UP':
-            self.screen.blit(self.snake_end_up, (self.head_coords[0], self.head_coords[1]))
+            self.screen.blit(self.head_up, (self.head_coords[0], self.head_coords[1]))
         elif self.direction == 'DOWN':
-            self.screen.blit(self.snake_end_down, (self.head_coords[0], self.head_coords[1]))
+            self.screen.blit(self.head_down, (self.head_coords[0], self.head_coords[1]))
         elif self.direction == "RIGHT":
-            self.screen.blit(self.snake_end_right, (self.head_coords[0], self.head_coords[1]))
+            self.screen.blit(self.head_right, (self.head_coords[0], self.head_coords[1]))
         elif self.direction == "LEFT":
-            self.screen.blit(self.snake_end_left, (self.head_coords[0], self.head_coords[1]))
+            self.screen.blit(self.head_left, (self.head_coords[0], self.head_coords[1]))
 
         #Body
         for i in range(len(self.positions)):
