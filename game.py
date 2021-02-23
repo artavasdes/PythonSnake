@@ -15,9 +15,10 @@ WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
 LIGHTBLUE = (120, 240, 120)
 YELLOW = (255, 255, 0)
+TRANSPARENTWHITE = (255, 255, 255, 128)
 FONT = "freesansbold.ttf"
 
-FPS = 15
+FPS = 20
 BOX_SIZE = 35
 DISPLAYX = 455
 DISPLAYY = 455
@@ -159,8 +160,9 @@ def game_loop():
 
 
         draw_game_area()
-        snake_obj.draw()
         apple.draw()
+        snake_obj.draw()
+        
         apple_count(SCORE)
  
         pygame.display.update()
@@ -304,7 +306,7 @@ def start_screen():
     pygame.display.update()
     
     #Buttons end
-
+    pygame.display.update()
 
 
     while True:
@@ -316,6 +318,8 @@ def start_screen():
 
                 if event.key == K_p:
                     game_loop()
+                elif event.key == K_s:
+                    settings_screen()
         
         CLOCK.tick(FPS)
 
@@ -348,6 +352,53 @@ def game_over():
                 if event.key == pygame.K_p:
                     game_loop()
         CLOCK.tick(FPS)
+    
+def settings_screen():
+
+    color_orders = [BLUE, RED, GREEN, YELLOW]
+    font = pygame.font.Font(FONT, 40)
+    small_font = pygame.font.Font(FONT, 23)
+    
+    settings_surf = dis.convert_alpha()
+    font_surface = font.render("SETTINGS", True, BLACK)
+    escape_surface = small_font.render("Press ESC or S to Escape", True, BLACK)
+    color_option_text_surface = small_font.render("Color: ", True, BLACK)
+
+
+    settings_background_rect = pygame.Rect(DISPLAYX / 6, DISPLAYY / 6, DISPLAYX / 1.5, DISPLAYY - DISPLAYY / 5)
+    color_rect = pygame.Rect(DISPLAYX / 2, DISPLAYY / 2.15, BOX_SIZE * 1.25, BOX_SIZE * 1.25)
+    rect_font = font_surface.get_rect()
+    escape_rect_font = escape_surface.get_rect()
+    color_option_font_rect = color_option_text_surface.get_rect()
+
+
+
+    rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 4))
+    escape_rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 3))
+    color_option_font_rect.center = ((DISPLAYX / 3), (DISPLAYY / 2))
+    draw_game_area()
+
+    pygame.draw.rect(settings_surf, TRANSPARENTWHITE, settings_background_rect)
+    pygame.draw.rect(settings_surf, color_orders[0], color_rect)
+
+    dis.blit(settings_surf, (0, 0))
+    dis.blit(color_option_text_surface, color_option_font_rect)
+    dis.blit(font_surface, rect_font)
+    dis.blit(escape_surface, escape_rect_font)
+    
+    pygame.display.update()
+    while True:
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s or event.key == pygame.K_ESCAPE:
+                    #Exit setting screen
+                    start_screen()
+
+            CLOCK.tick(FPS)
 def main():
 
     while True:
