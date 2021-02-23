@@ -266,42 +266,42 @@ def start_screen():
     
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
-    
+    print(click)
     
     #Easy button
-    if 150+100 > mouse[0] > 150 and 450+50 > mouse[1] > 450:
-        pygame.draw.rect(dis, LIGHTGREEN,(150,450,100,50))
+    if 25+100 > mouse[0] > 25 and 350+50 > mouse[1] > 350:
+        pygame.draw.rect(dis, LIGHTGREEN,(25,350,100,50))
         #if click[0] == 1:
             #speed change
     else:
-        pygame.draw.rect(dis, GREEN,(150,450,100,50))
+        pygame.draw.rect(dis, GREEN,(25,350,100,50))
     
     easy_font = pygame.font.Font("freesansbold.ttf", 15)
     textSurf, textRect = text_objects("Easy", easy_font)
-    textRect.center = ((150+50), (450 + 25))
+    textRect.center = ((25+50), (350 + 25))
     dis.blit(textSurf, textRect)
     
     
     #Normal Button
-    if 350+100 > mouse[0] > 350 and 450+50 > mouse[1] > 450:
-        pygame.draw.rect(dis, LIGHTBLUE,(350,450,100,50))
+    if 175+100 > mouse[0] > 175 and 350+50 > mouse[1] > 350:
+        pygame.draw.rect(dis, LIGHTBLUE,(350,350,100,50))
     else:
-        pygame.draw.rect(dis, BLUE,(350,450,100,50))
+        pygame.draw.rect(dis, BLUE,(175,350,100,50))
     
     normal_font = pygame.font.Font("freesansbold.ttf", 15)
     textSurf, textRect = text_objects("Normal", normal_font)
-    textRect.center = ((350+50), (450 + 25))
+    textRect.center = ((175+50), (350 + 25))
     dis.blit(textSurf, textRect)
     
     #Hard Button
-    if 550+100 > mouse[0] > 550 and 450+50 > mouse[1] > 450:
-        pygame.draw.rect(dis, LIGHTRED,(550,450,100,50))
+    if 325+100 > mouse[0] > 325 and 350+50 > mouse[1] > 350:
+        pygame.draw.rect(dis, LIGHTRED,(325,350,100,50))
     else:
-        pygame.draw.rect(dis, RED,(550,450,100,50))
+        pygame.draw.rect(dis, RED,(325,350,100,50))
     
     normal_font = pygame.font.Font("freesansbold.ttf", 15)
     textSurf, textRect = text_objects("Hard", normal_font)
-    textRect.center = ((350+50), (450 + 25))
+    textRect.center = ((325+50), (350 + 25))
     dis.blit(textSurf, textRect)
     pygame.display.update()
     
