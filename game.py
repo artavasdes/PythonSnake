@@ -18,7 +18,7 @@ YELLOW = (255, 255, 0)
 TRANSPARENTWHITE = (255, 255, 255, 128)
 FONT = "freesansbold.ttf"
 
-FPS = 20
+FPS = 15
 BOX_SIZE = 35
 DISPLAYX = 455
 DISPLAYY = 455
@@ -76,7 +76,7 @@ def game_loop():
     global SCORE
 
     #Create new snake
-    snake_obj = Snake(BLUE, "RIGHT", dis, BOX_SIZE)
+    snake_obj = Snake(get_current_color(), "RIGHT", dis, BOX_SIZE)
     #Create new apple
     apple = Apple(RED, dis, BOX_SIZE, snake_obj)
     
@@ -332,15 +332,19 @@ def game_over():
 
     font_surface = font.render("GAME OVER", True, WHITE)
     play_surface = play_font.render("Press P to play again", True, WHITE)
+    main_menu_surface = play_font.render("Press M for Main Menu", True, WHITE)
 
     rect_font = font_surface.get_rect()
     play_rect_font = play_surface.get_rect()
+    menu_text_rect = main_menu_surface.get_rect()
 
     rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 2.5))
     play_rect_font.center = ((DISPLAYX / 1.95), (DISPLAYY / 1.75))
+    menu_text_rect.center = ((DISPLAYX / 1.95), (DISPLAYY / 1.55))
 
     dis.blit(font_surface, rect_font)
     dis.blit(play_surface, play_rect_font)
+    dis.blit(main_menu_surface, menu_text_rect)
     pygame.display.update()
 
     while True:
@@ -351,11 +355,13 @@ def game_over():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     game_loop()
+                elif event.key == pygame.K_m:
+                    start_screen()
         CLOCK.tick(FPS)
     
 def settings_screen():
 
-    color_orders = [BLUE, RED, GREEN, YELLOW]
+    color_orders = ['blue', 'red', 'green', 'yellow']
     font = pygame.font.Font(FONT, 40)
     small_font = pygame.font.Font(FONT, 23)
     
@@ -376,30 +382,70 @@ def settings_screen():
     rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 4))
     escape_rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 3))
     color_option_font_rect.center = ((DISPLAYX / 3), (DISPLAYY / 2))
-    draw_game_area()
-
-    pygame.draw.rect(settings_surf, TRANSPARENTWHITE, settings_background_rect)
-    pygame.draw.rect(settings_surf, color_orders[0], color_rect)
-
-    dis.blit(settings_surf, (0, 0))
-    dis.blit(color_option_text_surface, color_option_font_rect)
-    dis.blit(font_surface, rect_font)
-    dis.blit(escape_surface, escape_rect_font)
     
-    pygame.display.update()
+
     while True:
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s or event.key == pygame.K_ESCAPE:
                     #Exit setting screen
                     start_screen()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if mouse_on_button(color_rect):
+                    pos_current_color = color_orders.index(get_current_color())
 
+                    if pos_current_color == len(color_orders) - 1 :
+                        #Last item on the list
+                        #switch back to blue
+                        change_color_settings(color_orders[0])
+                    else:
+                        #Switch color to next color on the list
+                        next_color = color_orders[pos_current_color + 1]
+                        change_color_settings(next_color)
+                    
+            draw_game_area()
+            pygame.draw.rect(settings_surf, TRANSPARENTWHITE, settings_background_rect)
+            pygame.draw.rect(settings_surf, get_current_color(), color_rect)
+
+            dis.blit(settings_surf, (0, 0))
+            dis.blit(color_option_text_surface, color_option_font_rect)
+            dis.blit(font_surface, rect_font)
+            dis.blit(escape_surface, escape_rect_font)            
+            pygame.display.update()
             CLOCK.tick(FPS)
+
+def mouse_on_button(rectangle):
+    mouse_position = pygame.mouse.get_pos()
+    #Check to see if the mouse position is on the button
+    if mouse_position[0] >= rectangle.topleft[0] and mouse_position[0] <= rectangle.bottomright[0]:
+        if mouse_position[1] >= rectangle.topleft[1] and mouse_position[1] <= rectangle.bottomright[1]:
+            return True
+    return False
+
+def get_current_color():
+    settings_file = open("settings.txt", "r")
+    color_line = settings_file.readline().split(": ")
+    color = color_line[1]
+    settings_file.close()
+    return color
+
+
+def change_color_settings(new_color):
+    read_settings_file = open("settings.txt", "r")
+    all_lines = read_settings_file.readlines()
+    all_lines[0] = "Color: " + new_color
+    read_settings_file.close()
+
+    write_settings_file = open("settings.txt", "w")
+    write_settings_file.writelines(all_lines)
+    write_settings_file.close()
+
 def main():
+
 
     while True:
         start_screen()
