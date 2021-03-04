@@ -18,7 +18,7 @@ YELLOW = (255, 255, 0)
 TRANSPARENTWHITE = (255, 255, 255, 128)
 FONT = "freesansbold.ttf"
 
-FPS = 15
+FPS = 60
 BOX_SIZE = 35
 DISPLAYX = 455
 DISPLAYY = 455
@@ -196,7 +196,7 @@ def collision_check(snake_obj):
     if snake_obj.head_coords[0] < 0 or snake_obj.head_coords[1] < 0:
 
         return True
-    if snake_obj.head_coords[0] >= 425 or snake_obj.head_coords[1] >= 425:
+    if snake_obj.head_coords[0] >= 455 or snake_obj.head_coords[1] >= 455:
 
         return True
     for i in range(1, len(snake_obj.positions)):
@@ -268,6 +268,10 @@ def start_screen():
     click = pygame.mouse.get_pressed()
     print(click)
     
+    easy_rect = pygame.Rect(25,350,100,50)
+    normal_rect = pygame.Rect(175,350,100,50)
+    hard_rect = pygame.Rect(350,350,100,50)
+
     #Easy button
     if 25+100 > mouse[0] > 25 and 350+50 > mouse[1] > 350:
         pygame.draw.rect(dis, LIGHTGREEN,(25,350,100,50))
@@ -314,14 +318,24 @@ def start_screen():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:
 
                 if event.key == K_p:
                     game_loop()
                 elif event.key == K_s:
                     settings_screen()
-        
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if mouse_on_button(easy_rect):
+                    #easy button
+                    game_loop()
+                elif mouse_on_button(normal_rect):
+                    #normal button
+                    game_loop()
+                elif mouse_on_button(hard_rect):
+                    #hard button
+                    game_loop()
         CLOCK.tick(FPS)
+
 
 
     
@@ -357,6 +371,7 @@ def game_over():
                     game_loop()
                 elif event.key == pygame.K_m:
                     start_screen()
+
         CLOCK.tick(FPS)
     
 def settings_screen():
