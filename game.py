@@ -4,6 +4,7 @@ import pygame, sys
 from pygame.locals import *
 from snake import *
 from apple import *
+from obstacle import *
 #Setup some constants/colors
 DARKGREEN = (162, 209, 73)
 LIGHTGREEN = (170, 215, 81)
@@ -74,21 +75,33 @@ def set_high_score(score):
 
 
 
-def game_loop(speed):
+def game_loop(difficulty):
 
     global SCORE
     
 
-
+    time = 0
     
     #Create new snake
-    snake_obj = Snake(get_current_color(), "RIGHT", dis, BOX_SIZE, speed)
+    snake_obj = Snake(get_current_color(), "RIGHT", dis, BOX_SIZE, difficulty)
 
     #Create new apple
-    apple = Apple(RED, dis, BOX_SIZE, snake_obj)
     
-    while True:
+    frame = 0
 
+    
+    obstacles = Obstacles(BOX_SIZE, DISPLAYX, DISPLAYY, difficulty, BLACK, snake_obj)
+    obstacles.create_obstacles()
+
+    apple = Apple(RED, dis, BOX_SIZE, snake_obj, obstacles)
+    while True:
+        time_passed = CLOCK.tick(FPS) / 1000
+        time += time_passed
+        
+        if frame == 1:
+            frame == 0
+        else:
+            frame += 1
         
         #count = len(snake_obj.positions) - 1    
         
@@ -96,22 +109,22 @@ def game_loop(speed):
 
         for event in pygame.event.get():
             
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and frame == 1:
                 
                 if event.key == K_LEFT:
                     if snake_obj.direction != RIGHT:
                         snake_obj.direction = LEFT
                         
 
-                elif event.key == K_RIGHT:
+                elif event.key == K_RIGHT and frame == 1:
                     if snake_obj.direction != LEFT:
                         snake_obj.direction = RIGHT
                         
-                elif event.key == K_UP:
+                elif event.key == K_UP and frame == 1:
                     if snake_obj.direction != DOWN:
                         snake_obj.direction = UP
                         
-                elif event.key == K_DOWN:
+                elif event.key == K_DOWN and frame == 1:
                     if snake_obj.direction != UP:
                         snake_obj.direction = DOWN
                         
@@ -119,56 +132,59 @@ def game_loop(speed):
                 pygame.quit()
                 sys.exit()
         
-        if collision_check(snake_obj) == True:
+        if collision_check(snake_obj, obstacles) == True:
             SCORE = 0
             game_over()
             return
 
         
-        if snake_obj.direction == LEFT:
-            snake_obj.move(LEFT)
+        if time > 0: 
             
-        elif snake_obj.direction == RIGHT:
-            snake_obj.move(RIGHT)
-        elif snake_obj.direction == UP:
-            snake_obj.move(UP)
-        elif snake_obj.direction == DOWN:
-            snake_obj.move(DOWN)
+            time = 0
+            if snake_obj.direction == LEFT:
+                snake_obj.move(LEFT, difficulty)
 
-        #applecount = 0
-        
-        if snake_obj.eat_apple(apple):
-            apple.place_on_grid(DISPLAYX, DISPLAYY)
-            SCORE += 1
+                    
+            elif snake_obj.direction == RIGHT:
+                snake_obj.move(RIGHT, difficulty)
+            elif snake_obj.direction == UP:
+                snake_obj.move(UP, difficulty)
+            elif snake_obj.direction == DOWN:
+                snake_obj.move(DOWN, difficulty)
+
+            #applecount = 0
+                
+            if snake_obj.eat_apple(apple):
+                apple.place_on_grid(DISPLAYX, DISPLAYY)
+                SCORE += 1
+                    
+
+                #Check if score is a high score
+                if SCORE > get_high_score():
+                    set_high_score(SCORE)
+                    apple_count(SCORE)
+                    #applecount += 1
+
+            else:    
+                snake_obj.positions.remove(snake_obj.positions[-1])
+                snake_obj.tail_coords = snake_obj.positions[-1]
+
+
+            #font = pygame.font.Font("freesansbold.ttf", 18)
+            #text = font.render(applecount, True, green, blue)
+            #textRect = text.get_rect()
+            #textRect.center = (425 // 2, 425 // 2)
+
+            #Try using message for counter overlay
+
+
             
-
-            #Check if score is a high score
-            if SCORE > get_high_score():
-                set_high_score(SCORE)
-            apple_count(SCORE)
-            #applecount += 1
-
-        else:
-
-            
-            snake_obj.positions.remove(snake_obj.positions[-1])
-            snake_obj.tail_coords = snake_obj.positions[-1]
-
-
-        #font = pygame.font.Font("freesansbold.ttf", 18)
-        #text = font.render(applecount, True, green, blue)
-        #textRect = text.get_rect()
-        #textRect.center = (425 // 2, 425 // 2)
-
-        #Try using message for counter overlay
-
-
-        
-        #message(applecount, RED)
+            #message(applecount, RED)
 
 
 
         draw_game_area()
+        obstacles.draw_obstacles(dis)
         apple.draw()
         snake_obj.draw()
         
@@ -223,7 +239,7 @@ def draw_game_area():
             pass
             pygame.draw.line(dis, WHITE, (0, y), (DISPLAYX, y))
         CLOCK.tick(FPS)
-def collision_check(snake_obj):
+def collision_check(snake_obj, obstacles):
     #Checks for collision with world borders.
 
     if snake_obj.head_coords[0] < 0 or snake_obj.head_coords[1] < 0:
@@ -232,6 +248,10 @@ def collision_check(snake_obj):
     if snake_obj.head_coords[0] >= 455 or snake_obj.head_coords[1] >= 455:
 
         return True
+
+    if obstacles.check_collision(snake_obj):
+        return True
+    
     for i in range(1, len(snake_obj.positions)):
         
         if snake_obj.positions[i] == snake_obj.head_coords:
@@ -239,6 +259,7 @@ def collision_check(snake_obj):
             snake_obj.draw()
             pygame.display.update()
             return True
+    
     else:
         return False
 
@@ -388,6 +409,7 @@ def game_over():
     play_rect_font.center = ((DISPLAYX / 1.95), (DISPLAYY / 1.75))
     menu_text_rect.center = ((DISPLAYX / 1.95), (DISPLAYY / 1.55))
 
+    draw_game_area()
     dis.blit(font_surface, rect_font)
     dis.blit(play_surface, play_rect_font)
     dis.blit(main_menu_surface, menu_text_rect)

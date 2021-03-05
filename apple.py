@@ -4,19 +4,20 @@ from pygame.locals import *
 
 class Apple():
 
-    def __init__(self, color, screen, box_size, snake):
+    def __init__(self, color, screen, box_size, snake, obstacles):
         self.screen = screen
         self.color = color
         self.position = [350, 245]
         self.box_size = box_size
         self.snake = snake
         self.graphic = pygame.image.load("graphics/snake_apple_download.png")
+        self.obstacles = obstacles
     def place_on_grid(self, gridx, gridy):
         '''Sets to a new, random position on the grid/playarea.'''
         self.position = [random.randrange(0, (gridx - self.box_size) // self.box_size) * self.box_size, 
         random.randrange(0, (gridy - self.box_size) // self.box_size) * self.box_size]
 
-        while self.position in self.snake.positions:
+        while self.position in self.snake.positions or self.position in self.obstacles.all_obstacles:
             #Find a new position so that it's not the same as one of the snake's.
             self.position = [random.randrange(0, (gridx - self.box_size) // self.box_size) * self.box_size, 
             random.randrange(0, (gridy - self.box_size) // self.box_size) * self.box_size]

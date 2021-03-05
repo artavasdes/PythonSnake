@@ -37,19 +37,19 @@ class Snake():
         self.corner_4 = pygame.image.load("graphics/" + self.color + "_snake/snake_corner_4.png")
 
 
-    def move(self, direction):
+    def move(self, direction, speed):
 
         #velocity/speed test for different difficulties
 
         
         if direction == 'UP':
-            self.head_coords = [self.head_coords[0], self.head_coords[1] - self.box_size]
+            self.head_coords = [self.head_coords[0], self.head_coords[1] - self.box_size * speed]
         elif direction == "DOWN":
-            self.head_coords = [self.head_coords[0], self.head_coords[1] + self.box_size]
+            self.head_coords = [self.head_coords[0], self.head_coords[1] + self.box_size * speed]
         elif direction == "RIGHT":
-            self.head_coords = [self.head_coords[0] + self.box_size, self.head_coords[1]]
+            self.head_coords = [self.head_coords[0] + self.box_size * speed, self.head_coords[1]]
         elif direction == "LEFT": 
-            self.head_coords = [self.head_coords[0] - self.box_size, self.head_coords[1]]
+            self.head_coords = [self.head_coords[0] - self.box_size * speed, self.head_coords[1]]
             
 
         self.positions.insert(0, self.head_coords)
