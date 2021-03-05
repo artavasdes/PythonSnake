@@ -3,18 +3,20 @@ import pygame
 from pygame.locals import *
 class Snake():
 
-    def __init__(self, color, start_direction, screen, box_size):
+    def __init__(self, color, start_direction, screen, box_size, speed):
         #maybe make color customizable by player later
         self.x = 105
         self.y = 245
 
-        self.positions = [(self.x, self.y), (self.x - box_size, self.y), (self.x - box_size * 2, self.y)]
+        self.positions = [[self.x, self.y], [self.x - box_size, self.y], [self.x - box_size * 2, self.y]]
         self.direction = start_direction
         self.color = color
         self.head_coords = self.positions[0]
         self.tail_coords = self.positions[-1]
         self.screen = screen
         self.box_size = box_size
+        self.speed = speed
+        
 
         #Graphics
         #load based on color setting
@@ -37,17 +39,21 @@ class Snake():
 
     def move(self, direction):
 
+        #velocity/speed test for different difficulties
+
         
         if direction == 'UP':
-            self.head_coords = (self.head_coords[0], self.head_coords[1] - self.box_size)
+            self.head_coords = [self.head_coords[0], self.head_coords[1] - self.box_size]
         elif direction == "DOWN":
-            self.head_coords = (self.head_coords[0], self.head_coords[1] + self.box_size)
+            self.head_coords = [self.head_coords[0], self.head_coords[1] + self.box_size]
         elif direction == "RIGHT":
-            self.head_coords = (self.head_coords[0] + self.box_size, self.head_coords[1])
-        elif direction == "LEFT":
-            self.head_coords = (self.head_coords[0] - self.box_size, self.head_coords[1])
-        
+            self.head_coords = [self.head_coords[0] + self.box_size, self.head_coords[1]]
+        elif direction == "LEFT": 
+            self.head_coords = [self.head_coords[0] - self.box_size, self.head_coords[1]]
+            
+
         self.positions.insert(0, self.head_coords)
+
 
     
 
