@@ -63,6 +63,14 @@ class Snake():
         #    box = pygame.Rect(self.positions[segment][0], self.positions[segment][1], self.box_size, self.box_size)
         #    pygame.draw.rect(self.screen, self.color, box)
 
+
+        #if self.speed == 0:
+#
+        #elif self.speed == 1:
+#
+        #elif self.speed == 2:
+        
+
         #Draw the head
         if self.direction == 'UP':
             self.screen.blit(self.head_up, (self.head_coords[0], self.head_coords[1]))
