@@ -159,9 +159,9 @@ class Snake():
             return False
 
     def pieces_in_box(self):
-        print(self.head_coords)
+        
         if self.head_coords[0] % self.box_size == 0 and self.head_coords[1] % self.box_size == 0:
             return True
         else:
-            print('f')
+        
             return False
