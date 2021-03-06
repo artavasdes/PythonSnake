@@ -1,2 +1,2 @@
-Color: red
+Color: blue
 Background: 2

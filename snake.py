@@ -3,7 +3,7 @@ import pygame
 from pygame.locals import *
 class Snake():
 
-    def __init__(self, color, start_direction, screen, box_size, speed):
+    def __init__(self, color, start_direction, screen, box_size, difficulty):
         #maybe make color customizable by player later
         self.x = 105
         self.y = 245
@@ -15,7 +15,7 @@ class Snake():
         self.tail_coords = self.positions[-1]
         self.screen = screen
         self.box_size = box_size
-        self.speed = speed
+        self.difficulty = difficulty
         
 
         #Graphics
@@ -42,15 +42,24 @@ class Snake():
         #velocity/speed test for different difficulties
 
         
+        # if direction == 'UP':
+        #     self.head_coords = [self.head_coords[0], self.head_coords[1] - self.box_size]
+        # elif direction == "DOWN":
+        #     self.head_coords = [self.head_coords[0], self.head_coords[1] + self.box_size]
+        # elif direction == "RIGHT":
+        #     self.head_coords = [self.head_coords[0] + self.box_size, self.head_coords[1]]
+        # elif direction == "LEFT": 
+        #     self.head_coords = [self.head_coords[0] - self.box_size, self.head_coords[1]]
         if direction == 'UP':
-            self.head_coords = [self.head_coords[0], self.head_coords[1] - self.box_size * speed]
+            self.head_coords = [self.head_coords[0], self.head_coords[1] - self.box_size]
+
         elif direction == "DOWN":
-            self.head_coords = [self.head_coords[0], self.head_coords[1] + self.box_size * speed]
+            self.head_coords = [self.head_coords[0], self.head_coords[1] + self.box_size]
         elif direction == "RIGHT":
-            self.head_coords = [self.head_coords[0] + self.box_size * speed, self.head_coords[1]]
+            self.head_coords = [self.head_coords[0] + self.box_size, self.head_coords[1]]
+
         elif direction == "LEFT": 
-            self.head_coords = [self.head_coords[0] - self.box_size * speed, self.head_coords[1]]
-            
+            self.head_coords = [self.head_coords[0] - self.box_size, self.head_coords[1]]            
 
         self.positions.insert(0, self.head_coords)
 
@@ -143,10 +152,16 @@ class Snake():
         # elif self.direction == "LEFT":
         #     self.screen.blit(self.snake_end_right, (self.tail_coords[0], self.tail_coords[1]))       
     def eat_apple(self, apple):
+
         if self.head_coords == apple.position:
-            #apple has been eaten
             return True
         else:
             return False
 
-
+    def pieces_in_box(self):
+        print(self.head_coords)
+        if self.head_coords[0] % self.box_size == 0 and self.head_coords[1] % self.box_size == 0:
+            return True
+        else:
+            print('f')
+            return False

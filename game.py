@@ -88,13 +88,14 @@ def game_loop(difficulty):
     #Create new apple
     
     frame = 0
-
+    pressed = False
     
     obstacles = Obstacles(BOX_SIZE, DISPLAYX, DISPLAYY, difficulty, BLACK, snake_obj)
     obstacles.create_obstacles()
 
     apple = Apple(RED, dis, BOX_SIZE, snake_obj, obstacles)
     while True:
+        pressed = False
         time_passed = CLOCK.tick(FPS) / 1000
         time += time_passed
         
@@ -108,43 +109,54 @@ def game_loop(difficulty):
         pygame.display.update()
 
         for event in pygame.event.get():
-            
-            if event.type == pygame.KEYDOWN and frame == 1:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN and (pressed == False and snake_obj.pieces_in_box()):
                 
                 if event.key == K_LEFT:
                     if snake_obj.direction != RIGHT:
                         snake_obj.direction = LEFT
+                        pressed = True
                         
+                        snake_obj.move(LEFT, difficulty)
 
-                elif event.key == K_RIGHT and frame == 1:
+                elif event.key == K_RIGHT:
                     if snake_obj.direction != LEFT:
                         snake_obj.direction = RIGHT
+                        pressed = True
                         
-                elif event.key == K_UP and frame == 1:
+                        snake_obj.move(RIGHT, difficulty)
+                        
+                elif event.key == K_UP:
                     if snake_obj.direction != DOWN:
                         snake_obj.direction = UP
+                        pressed = True
                         
-                elif event.key == K_DOWN and frame == 1:
+                        snake_obj.move(UP, difficulty)
+                        
+                elif event.key == K_DOWN:
                     if snake_obj.direction != UP:
                         snake_obj.direction = DOWN
+                        pressed = True
                         
-            elif event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                        snake_obj.move(DOWN, difficulty)
+            
+         
+          
+                
         
         if collision_check(snake_obj, obstacles) == True:
             SCORE = 0
-            game_over()
+            game_over(snake_obj, obstacles)
             return
 
         
-        if time > 0: 
-            
+        if time > 0 and not pressed: 
+   
             time = 0
             if snake_obj.direction == LEFT:
                 snake_obj.move(LEFT, difficulty)
-
-                    
             elif snake_obj.direction == RIGHT:
                 snake_obj.move(RIGHT, difficulty)
             elif snake_obj.direction == UP:
@@ -154,22 +166,22 @@ def game_loop(difficulty):
 
             #applecount = 0
                 
-            if snake_obj.eat_apple(apple):
-                apple.place_on_grid(DISPLAYX, DISPLAYY)
-                SCORE += 1
+        if snake_obj.eat_apple(apple):
+            apple.place_on_grid(DISPLAYX, DISPLAYY)
+            SCORE += 1
                     
 
-                #Check if score is a high score
-                if SCORE > get_high_score():
-                    set_high_score(SCORE)
-                    apple_count(SCORE)
-                    #applecount += 1
+            #Check if score is a high score
+            if SCORE > get_high_score():
+                set_high_score(SCORE)
+                apple_count(SCORE)
+                #applecount += 1
 
-            else:    
-                snake_obj.positions.remove(snake_obj.positions[-1])
-                snake_obj.tail_coords = snake_obj.positions[-1]
+        else:    
+            snake_obj.positions.remove(snake_obj.positions[-1])
+            snake_obj.tail_coords = snake_obj.positions[-1]
 
-
+            
             #font = pygame.font.Font("freesansbold.ttf", 18)
             #text = font.render(applecount, True, green, blue)
             #textRect = text.get_rect()
@@ -217,6 +229,7 @@ def draw_game_area():
                 
                 else:
                     pygame.draw.rect(dis, DARKGREEN, grid_box)
+        CLOCK.tick(FPS)
     #2
     elif get_current_background() == 2:
 
@@ -380,19 +393,19 @@ def start_screen():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if mouse_on_button(easy_rect):
                     #easy button
-                    game_loop(.5)
+                    game_loop(1)
                 elif mouse_on_button(normal_rect):
                     #normal button
-                    game_loop(1)
+                    game_loop(2)
                 elif mouse_on_button(hard_rect):
                     #hard button
-                    game_loop(2)
+                    game_loop(3)
         CLOCK.tick(FPS)
 
 
 
     
-def game_over():
+def game_over(snake, obstacles):
     
     font = pygame.font.Font(FONT, 60)
     play_font = pygame.font.Font(FONT, 30)
@@ -410,6 +423,8 @@ def game_over():
     menu_text_rect.center = ((DISPLAYX / 1.95), (DISPLAYY / 1.55))
 
     draw_game_area()
+    snake.draw()
+    obstacles.draw_obstacles(dis)
     dis.blit(font_surface, rect_font)
     dis.blit(play_surface, play_rect_font)
     dis.blit(main_menu_surface, menu_text_rect)

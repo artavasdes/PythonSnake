@@ -11,9 +11,10 @@ class Obstacles():
         self.color = color
         self.difficulty = difficulty
         self.snake = snake
+        self.graphic = pygame.image.load("graphics/rocks.png")
     def create_obstacles(self):
         
-        if self.difficulty == 1:
+        if self.difficulty == 3:
             
             # total_grids = (self.gridx // self.box_size) * (self.gridy // self.box_size)
             for i in range(5):
@@ -35,8 +36,10 @@ class Obstacles():
     def draw_obstacles(self, surface):
         
         for obstacle in self.all_obstacles:
-            obstacle_box = pygame.Rect(obstacle[0], obstacle[1], self.box_size, self.box_size)
-            pygame.draw.rect(surface, self.color, obstacle_box)
+            
+            surface.blit(self.graphic, (obstacle[0], obstacle[1]))
+            # obstacle_box = pygame.Rect(obstacle[0], obstacle[1], self.box_size, self.box_size)
+            # pygame.draw.rect(surface, self.color, obstacle_box)
 
            
  
