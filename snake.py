@@ -42,28 +42,44 @@ class Snake():
         #velocity/speed test for different difficulties
 
         
-        # if direction == 'UP':
-        #     self.head_coords = [self.head_coords[0], self.head_coords[1] - self.box_size]
-        # elif direction == "DOWN":
-        #     self.head_coords = [self.head_coords[0], self.head_coords[1] + self.box_size]
-        # elif direction == "RIGHT":
-        #     self.head_coords = [self.head_coords[0] + self.box_size, self.head_coords[1]]
-        # elif direction == "LEFT": 
-        #     self.head_coords = [self.head_coords[0] - self.box_size, self.head_coords[1]]
         if direction == 'UP':
-            self.head_coords = [self.head_coords[0], self.head_coords[1] - self.box_size]
-
+            self.head_coords = [self.head_coords[0], self.head_coords[1] - self.box_size ]
         elif direction == "DOWN":
-            self.head_coords = [self.head_coords[0], self.head_coords[1] + self.box_size]
+            self.head_coords = [self.head_coords[0], self.head_coords[1] + self.box_size ]
         elif direction == "RIGHT":
-            self.head_coords = [self.head_coords[0] + self.box_size, self.head_coords[1]]
-
+            self.head_coords = [self.head_coords[0] + self.box_size , self.head_coords[1]]
         elif direction == "LEFT": 
-            self.head_coords = [self.head_coords[0] - self.box_size, self.head_coords[1]]            
+            self.head_coords = [self.head_coords[0] - self.box_size , self.head_coords[1]]
 
+
+        # elif direction == "DOWN":
+        #     self.head_coords = [self.head_coords[0], self.head_coords[1] + self.box_size / 2]
+        # elif direction == "RIGHT":
+        #     self.head_coords = [self.head_coords[0] + self.box_size / 2, self.head_coords[1]]
+
+        # elif direction == "LEFT": 
+        #     self.head_coords = [self.head_coords[0] - self.box_size / 2, self.head_coords[1]]            
+        
+        # self.positions.remove(self.positions[0])
         self.positions.insert(0, self.head_coords)
 
+        # for i in range(1, len(self.positions)):
+        #     if direction == 'UP':
+        #         self.positions[i] = [self.positions[i][0], self.positions[i][1] - self.box_size / 2]
 
+        #     elif direction == "DOWN":
+        #         self.positions[i] = [self.positions[i][0], self.positions[i][1] + self.box_size / 2]
+        #     elif direction == "RIGHT":
+        #         self.positions[i] = [self.positions[i][0] + self.box_size / 2, self.positions[i][1]]
+
+        #     elif direction == "LEFT": 
+        #         self.positions[i] = [self.positions[i] - self.box_size / 2, self.positions[i][1]]              
+            
+        #     self.head_coords = self.positions[0]
+        
+        #     print(self.positions[i])
+        #     print(self.positions)
+        
     
 
     def draw(self):

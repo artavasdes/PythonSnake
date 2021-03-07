@@ -22,7 +22,7 @@ TURQUOISE = (175, 238, 238)
 DARKTURQUOISE = (0, 206, 209)
 FONT = "freesansbold.ttf"
 
-FPS = 20
+FPS = 15
 BOX_SIZE = 35
 DISPLAYX = 455
 DISPLAYY = 455
@@ -38,12 +38,16 @@ SCORE = 0
 HIGHSCORE = 0
 
 
+
+
 pygame.init()
 dis=pygame.display.set_mode((DISPLAYX, DISPLAYY))
 CLOCK = pygame.time.Clock()
 pygame.display.update()
-pygame.display.set_caption("Snake game by Joshua Kim and Vartan Yildiz")
-
+pygame.display.set_caption("ADVANCED SNAKE")
+grass_1 = pygame.image.load("graphics/grass1.png").convert()
+grass_2 = pygame.image.load("graphics/grass2.png").convert()
+grass_3 = pygame.image.load("graphics/grass.png").convert()
 # game_over=False
 
 #font_style = pygame.font.SysFont(None, 50)
@@ -74,7 +78,6 @@ def set_high_score(score):
     file_write.close()
 
 
-
 def game_loop(difficulty):
 
     global SCORE
@@ -87,13 +90,15 @@ def game_loop(difficulty):
 
     #Create new apple
     
+
     frame = 0
     pressed = False
     
-    obstacles = Obstacles(BOX_SIZE, DISPLAYX, DISPLAYY, difficulty, BLACK, snake_obj)
+    obstacles = Obstacles(BOX_SIZE, DISPLAYX, DISPLAYY, difficulty, BLACK, snake_obj, [350, 245])
+    apple = Apple(RED, dis, BOX_SIZE, snake_obj, obstacles)
     obstacles.create_obstacles()
 
-    apple = Apple(RED, dis, BOX_SIZE, snake_obj, obstacles)
+    
     while True:
         pressed = False
         time_passed = CLOCK.tick(FPS) / 1000
@@ -113,12 +118,15 @@ def game_loop(difficulty):
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN and (pressed == False and snake_obj.pieces_in_box()):
-                
+                if collision_check(snake_obj, obstacles) == True:
+                    SCORE = 0
+                    game_over(snake_obj, obstacles, difficulty)
+                    return                
                 if event.key == K_LEFT:
                     if snake_obj.direction != RIGHT:
                         snake_obj.direction = LEFT
                         pressed = True
-                        
+
                         snake_obj.move(LEFT, difficulty)
 
                 elif event.key == K_RIGHT:
@@ -127,28 +135,28 @@ def game_loop(difficulty):
                         pressed = True
                         
                         snake_obj.move(RIGHT, difficulty)
-                        
+
                 elif event.key == K_UP:
                     if snake_obj.direction != DOWN:
                         snake_obj.direction = UP
                         pressed = True
                         
                         snake_obj.move(UP, difficulty)
-                        
+
                 elif event.key == K_DOWN:
                     if snake_obj.direction != UP:
                         snake_obj.direction = DOWN
                         pressed = True
                         
                         snake_obj.move(DOWN, difficulty)
-            
+
          
           
                 
         
         if collision_check(snake_obj, obstacles) == True:
             SCORE = 0
-            game_over(snake_obj, obstacles)
+            game_over(snake_obj, obstacles, difficulty)
             return
 
         
@@ -157,12 +165,18 @@ def game_loop(difficulty):
             time = 0
             if snake_obj.direction == LEFT:
                 snake_obj.move(LEFT, difficulty)
+                
             elif snake_obj.direction == RIGHT:
                 snake_obj.move(RIGHT, difficulty)
+                
             elif snake_obj.direction == UP:
                 snake_obj.move(UP, difficulty)
+            
+                
             elif snake_obj.direction == DOWN:
                 snake_obj.move(DOWN, difficulty)
+                
+                
 
             #applecount = 0
                 
@@ -181,7 +195,7 @@ def game_loop(difficulty):
             snake_obj.positions.remove(snake_obj.positions[-1])
             snake_obj.tail_coords = snake_obj.positions[-1]
 
-            
+           
             #font = pygame.font.Font("freesansbold.ttf", 18)
             #text = font.render(applecount, True, green, blue)
             #textRect = text.get_rect()
@@ -203,55 +217,58 @@ def game_loop(difficulty):
         apple_count(SCORE)
  
         pygame.display.update()
-        CLOCK.tick(FPS)
+        CLOCK.tick(difficulty)
 def draw_game_area():
     #Loop through all the rows and corresponding columns to create "boxes"/grids 
     #on the play-area via Pygame rect objects.
 
     #1
     if get_current_background() == 1:
+        dis.blit(grass_1, (0, 0))
         
-        for boxx in range(DISPLAYX):
-            for boxy in range(DISPLAYY):
-                # box_width = boxx* BOX_SIZE
-                # box_length = boxy* BOX_SIZE
+        # for boxx in range(DISPLAYX):
+        #     for boxy in range(DISPLAYY):
+        #         # box_width = boxx* BOX_SIZE
+        #         # box_length = boxy* BOX_SIZE
 
-                grid_box = pygame.Rect(boxx * BOX_SIZE, boxy * BOX_SIZE, BOX_SIZE, BOX_SIZE)
-                if boxx % 2 == 0:
+        #         grid_box = pygame.Rect(boxx * BOX_SIZE, boxy * BOX_SIZE, BOX_SIZE, BOX_SIZE)
+        #         if boxx % 2 == 0:
 
-                    if boxy % 2 == 0:
-                        pygame.draw.rect(dis, LIGHTGREEN, grid_box)
-                    else:
-                        pygame.draw.rect(dis, DARKGREEN, grid_box)
+        #             if boxy % 2 == 0:
+        #                 pygame.draw.rect(dis, LIGHTGREEN, grid_box)
+        #             else:
+        #                 pygame.draw.rect(dis, DARKGREEN, grid_box)
                     
-                elif boxy % 2 != 0:
-                    pygame.draw.rect(dis, LIGHTGREEN, grid_box)
+        #         elif boxy % 2 != 0:
+        #             pygame.draw.rect(dis, LIGHTGREEN, grid_box)
                 
-                else:
-                    pygame.draw.rect(dis, DARKGREEN, grid_box)
-        CLOCK.tick(FPS)
+        #         else:
+        #             pygame.draw.rect(dis, DARKGREEN, grid_box)
+        # CLOCK.tick(FPS)
     #2
     elif get_current_background() == 2:
-
-        dis.fill(DARKGREEN)
-        for x in range(DISPLAYX):
-            if x % BOX_SIZE == 0:
-                pygame.draw.line(dis, BLACK, (x, 0), (x, DISPLAYY))
-        for y in range(DISPLAYY):
-            if y % BOX_SIZE == 0:
-                pygame.draw.line(dis, BLACK, (0, y), (DISPLAYX, y))
-        CLOCK.tick(FPS)
+        dis.blit(grass_2, (0, 0))
+        
+        # dis.fill(DARKGREEN)
+        # for x in range(DISPLAYX):
+        #     if x % BOX_SIZE == 0:
+        #         pygame.draw.line(dis, BLACK, (x, 0), (x, DISPLAYY))
+        # for y in range(DISPLAYY):
+        #     if y % BOX_SIZE == 0:
+        #         pygame.draw.line(dis, BLACK, (0, y), (DISPLAYX, y))
+        # CLOCK.tick(FPS)
     #3
     elif get_current_background() == 3:
-
-        dis.fill(DARKGREEN)
-        for x in range(0, DISPLAYX, BOX_SIZE):
-            pass
-            pygame.draw.line(dis, WHITE, (x, 0), (x, DISPLAYY))
-        for y in range(0, DISPLAYY, BOX_SIZE):
-            pass
-            pygame.draw.line(dis, WHITE, (0, y), (DISPLAYX, y))
-        CLOCK.tick(FPS)
+        dis.blit(grass_3, (0,0))
+        
+        # dis.fill(DARKGREEN)
+        # for x in range(0, DISPLAYX, BOX_SIZE):
+        #     pass
+        #     pygame.draw.line(dis, WHITE, (x, 0), (x, DISPLAYY))
+        # for y in range(0, DISPLAYY, BOX_SIZE):
+        #     pass
+        #     pygame.draw.line(dis, WHITE, (0, y), (DISPLAYX, y))
+        # CLOCK.tick(FPS)
 def collision_check(snake_obj, obstacles):
     #Checks for collision with world borders.
 
@@ -387,25 +404,26 @@ def start_screen():
             elif event.type == pygame.KEYDOWN:
 
                 if event.key == K_p:
-                    game_loop(1)
+                    difficulty = random.choice([7, 15, 40])
+                    game_loop(difficulty)
                 elif event.key == K_s:
                     settings_screen()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if mouse_on_button(easy_rect):
                     #easy button
-                    game_loop(1)
+                    game_loop(7)
                 elif mouse_on_button(normal_rect):
                     #normal button
-                    game_loop(2)
+                    game_loop(15)
                 elif mouse_on_button(hard_rect):
                     #hard button
-                    game_loop(3)
+                    game_loop(40)
         CLOCK.tick(FPS)
 
 
 
     
-def game_over(snake, obstacles):
+def game_over(snake, obstacles, difficulty):
     
     font = pygame.font.Font(FONT, 60)
     play_font = pygame.font.Font(FONT, 30)
@@ -437,7 +455,7 @@ def game_over(snake, obstacles):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
-                    game_loop(1)
+                    game_loop(difficulty)
                 elif event.key == pygame.K_m:
                     start_screen()
 

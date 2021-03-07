@@ -10,7 +10,7 @@ class Apple():
         self.position = [350, 245]
         self.box_size = box_size
         self.snake = snake
-        self.graphic = pygame.image.load("graphics/snake_apple_download.png")
+        self.graphic = pygame.image.load("graphics/snake_apple_graphic.png")
         self.obstacles = obstacles
     def place_on_grid(self, gridx, gridy):
         '''Sets to a new, random position on the grid/playarea.'''
