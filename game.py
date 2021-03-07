@@ -41,6 +41,9 @@ HIGHSCORE = 0
 
 
 pygame.init()
+pygame.mixer.init()
+pygame.mixer.music.load("crunch.wav")
+pygame.mixer.music.set_volume(0.7)
 dis=pygame.display.set_mode((DISPLAYX, DISPLAYY))
 CLOCK = pygame.time.Clock()
 pygame.display.update()
@@ -183,6 +186,7 @@ def game_loop(difficulty):
         if snake_obj.eat_apple(apple):
             apple.place_on_grid(DISPLAYX, DISPLAYY)
             SCORE += 1
+            pygame.mixer.music.play()
                     
 
             #Check if score is a high score
