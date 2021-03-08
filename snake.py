@@ -21,20 +21,20 @@ class Snake():
         #Graphics
         #load based on color setting
         
-        self.head_up = self.head_down = pygame.image.load("graphics/" + self.color + "_snake/snake_head_up.png")
-        self.head_down = pygame.image.load("graphics/" + self.color + "_snake/snake_head_down.png")
-        self.head_left = pygame.image.load("graphics/" + self.color + "_snake/snake_head_left.png")
-        self.head_right = pygame.image.load("graphics/" + self.color + "_snake/snake_head_right.png")
-        self.snake_end_left = pygame.image.load("graphics/" + self.color + "_snake/snake_end_left.png")
-        self.snake_end_right = pygame.image.load("graphics/" + self.color + "_snake/snake_end_right.png")
-        self.snake_end_up = pygame.image.load("graphics/" + self.color + "_snake/snake_end_up.png")
-        self.snake_end_down = pygame.image.load("graphics/" + self.color + "_snake/snake_end_down.png")
-        self.snake_segment_horizontal = pygame.image.load("graphics/" + self.color + "_snake/snake_segment_horizontal.png")
-        self.snake_segment_vertical = pygame.image.load("graphics/" + self.color + "_snake/snake_segment_vertical.png")
-        self.corner_1 = pygame.image.load("graphics/" + self.color + "_snake/snake_corner_1.png")
-        self.corner_2 = pygame.image.load("graphics/" + self.color + "_snake/snake_corner_2.png")
-        self.corner_3 = pygame.image.load("graphics/" + self.color + "_snake/snake_corner_3.png")
-        self.corner_4 = pygame.image.load("graphics/" + self.color + "_snake/snake_corner_4.png")
+        self.head_up = self.head_down = pygame.image.load("graphics/" + self.color + "_snake/snake_head_up.png").convert_alpha()
+        self.head_down = pygame.image.load("graphics/" + self.color + "_snake/snake_head_down.png").convert_alpha()
+        self.head_left = pygame.image.load("graphics/" + self.color + "_snake/snake_head_left.png").convert_alpha()
+        self.head_right = pygame.image.load("graphics/" + self.color + "_snake/snake_head_right.png").convert_alpha()
+        self.snake_end_left = pygame.image.load("graphics/" + self.color + "_snake/snake_end_left.png").convert_alpha()
+        self.snake_end_right = pygame.image.load("graphics/" + self.color + "_snake/snake_end_right.png").convert_alpha()
+        self.snake_end_up = pygame.image.load("graphics/" + self.color + "_snake/snake_end_up.png").convert_alpha()
+        self.snake_end_down = pygame.image.load("graphics/" + self.color + "_snake/snake_end_down.png").convert_alpha()
+        self.snake_segment_horizontal = pygame.image.load("graphics/" + self.color + "_snake/snake_segment_horizontal.png").convert_alpha()
+        self.snake_segment_vertical = pygame.image.load("graphics/" + self.color + "_snake/snake_segment_vertical.png").convert_alpha()
+        self.corner_1 = pygame.image.load("graphics/" + self.color + "_snake/snake_corner_1.png").convert_alpha()
+        self.corner_2 = pygame.image.load("graphics/" + self.color + "_snake/snake_corner_2.png").convert_alpha()
+        self.corner_3 = pygame.image.load("graphics/" + self.color + "_snake/snake_corner_3.png").convert_alpha()
+        self.corner_4 = pygame.image.load("graphics/" + self.color + "_snake/snake_corner_4.png").convert_alpha()
 
 
     def move(self, direction, speed):

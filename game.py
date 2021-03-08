@@ -42,15 +42,19 @@ HIGHSCORE = 0
 
 pygame.init()
 pygame.mixer.init()
-pygame.mixer.music.load("crunch.wav")
+pygame.mixer.music.load("sounds/crunch.wav")
 pygame.mixer.music.set_volume(0.7)
+button_click_sound = pygame.mixer.Sound("sounds/button_select.mp3")
+game_over_sound = pygame.mixer.Sound("sounds/game_over_sound.mp3")
 dis=pygame.display.set_mode((DISPLAYX, DISPLAYY))
 CLOCK = pygame.time.Clock()
 pygame.display.update()
 pygame.display.set_caption("ADVANCED SNAKE")
-grass_1 = pygame.image.load("graphics/grass1.png").convert()
-grass_2 = pygame.image.load("graphics/grass2.png").convert()
-grass_3 = pygame.image.load("graphics/grass.png").convert()
+grass_1 = pygame.image.load("graphics/grass/grass1.png").convert()
+grass_2 = pygame.image.load("graphics/grass/grass2.png").convert()
+grass_3 = pygame.image.load("graphics/grass/grass3.png").convert()
+grass_4 = pygame.image.load("graphics/grass/grass4.png").convert()
+grass_5 = pygame.image.load("graphics/grass/grass5.png").convert()
 # game_over=False
 
 #font_style = pygame.font.SysFont(None, 50)
@@ -127,6 +131,7 @@ def game_loop(difficulty):
                     return                
                 if event.key == K_LEFT:
                     if snake_obj.direction != RIGHT:
+                        
                         snake_obj.direction = LEFT
                         pressed = True
 
@@ -134,6 +139,7 @@ def game_loop(difficulty):
 
                 elif event.key == K_RIGHT:
                     if snake_obj.direction != LEFT:
+                        
                         snake_obj.direction = RIGHT
                         pressed = True
                         
@@ -141,6 +147,7 @@ def game_loop(difficulty):
 
                 elif event.key == K_UP:
                     if snake_obj.direction != DOWN:
+                        
                         snake_obj.direction = UP
                         pressed = True
                         
@@ -148,6 +155,7 @@ def game_loop(difficulty):
 
                 elif event.key == K_DOWN:
                     if snake_obj.direction != UP:
+                        
                         snake_obj.direction = DOWN
                         pressed = True
                         
@@ -212,7 +220,7 @@ def game_loop(difficulty):
             #message(applecount, RED)
 
 
-
+        dis.fill(WHITE)
         draw_game_area()
         obstacles.draw_obstacles(dis)
         apple.draw()
@@ -273,6 +281,13 @@ def draw_game_area():
         #     pass
         #     pygame.draw.line(dis, WHITE, (0, y), (DISPLAYX, y))
         # CLOCK.tick(FPS)
+    #4
+    elif get_current_background() == 4:
+        dis.blit(grass_4, (0, 0))
+    #5
+    elif get_current_background() == 5:
+        dis.blit(grass_5, (0, 0))
+
 def collision_check(snake_obj, obstacles):
     #Checks for collision with world borders.
 
@@ -360,12 +375,8 @@ def start_screen():
     hard_rect = pygame.Rect(350,350,100,50)
 
     #Easy button
-    if 25+100 > mouse[0] > 25 and 350+50 > mouse[1] > 350:
-        pygame.draw.rect(dis, LIGHTGREEN,(25,350,100,50))
-        #if click[0] == 1:
-            #speed change
-    else:
-        pygame.draw.rect(dis, GREEN,(25,350,100,50))
+
+    pygame.draw.rect(dis, GREEN,(25,350,100,50))
     
     easy_font = pygame.font.Font("freesansbold.ttf", 15)
     textSurf, textRect = text_objects("Easy", easy_font)
@@ -374,10 +385,8 @@ def start_screen():
     
     
     #Normal Button
-    if 175+100 > mouse[0] > 175 and 350+50 > mouse[1] > 350:
-        pygame.draw.rect(dis, LIGHTBLUE,(350,350,100,50))
-    else:
-        pygame.draw.rect(dis, BLUE,(175,350,100,50))
+
+    pygame.draw.rect(dis, BLUE,(175,350,100,50))
     
     normal_font = pygame.font.Font("freesansbold.ttf", 15)
     textSurf, textRect = text_objects("Normal", normal_font)
@@ -385,10 +394,8 @@ def start_screen():
     dis.blit(textSurf, textRect)
     
     #Hard Button
-    if 325+100 > mouse[0] > 325 and 350+50 > mouse[1] > 350:
-        pygame.draw.rect(dis, LIGHTRED,(325,350,100,50))
-    else:
-        pygame.draw.rect(dis, RED,(325,350,100,50))
+    
+    pygame.draw.rect(dis, RED,(325,350,100,50))
     
     normal_font = pygame.font.Font("freesansbold.ttf", 15)
     textSurf, textRect = text_objects("Hard", normal_font)
@@ -415,12 +422,16 @@ def start_screen():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if mouse_on_button(easy_rect):
                     #easy button
+                    button_click_sound.play()
                     game_loop(7)
                 elif mouse_on_button(normal_rect):
                     #normal button
+                    button_click_sound.play()
                     game_loop(15)
                 elif mouse_on_button(hard_rect):
+
                     #hard button
+                    button_click_sound.play()
                     game_loop(40)
         CLOCK.tick(FPS)
 
@@ -428,7 +439,8 @@ def start_screen():
 
     
 def game_over(snake, obstacles, difficulty):
-    
+    game_over_sound.play()
+
     font = pygame.font.Font(FONT, 60)
     play_font = pygame.font.Font(FONT, 30)
 
@@ -452,6 +464,7 @@ def game_over(snake, obstacles, difficulty):
     dis.blit(main_menu_surface, menu_text_rect)
     pygame.display.update()
 
+    
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -459,6 +472,7 @@ def game_over(snake, obstacles, difficulty):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
+                    
                     game_loop(difficulty)
                 elif event.key == pygame.K_m:
                     start_screen()
@@ -467,7 +481,7 @@ def game_over(snake, obstacles, difficulty):
     
 def settings_screen():
 
-    color_orders = ['blue', 'red']
+    color_orders = ['blue', 'red', 'green']
     font = pygame.font.Font(FONT, 40)
     small_font = pygame.font.Font(FONT, 23)
     
@@ -500,9 +514,11 @@ def settings_screen():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s or event.key == pygame.K_ESCAPE:
                     #Exit setting screen
+                    button_click_sound.play()
                     start_screen()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if mouse_on_button(color_rect):
+                    button_click_sound.play()
                     pos_current_color = color_orders.index(get_current_color())
 
                     if pos_current_color == len(color_orders) - 1 :
@@ -514,6 +530,7 @@ def settings_screen():
                         next_color = color_orders[pos_current_color + 1]
                         change_color_settings(next_color)
                 elif mouse_on_button(choose_grid_rect):
+                    button_click_sound.play()
                     change_background()
 
             draw_game_area()            
@@ -572,7 +589,7 @@ def change_background():
     read_settings_file = open("settings.txt", "r")
     all_lines = read_settings_file.readlines()
     read_settings_file.close()
-    if get_current_background() == 3:
+    if get_current_background() == 5:
         #change to 1
         all_lines[1] = "Background: 1"
     else:
