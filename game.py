@@ -44,7 +44,7 @@ pygame.init()
 pygame.mixer.init()
 pygame.mixer.music.load("sounds/crunch.wav")
 pygame.mixer.music.set_volume(0.7)
-button_click_sound = pygame.mixer.Sound("sounds/button_select.mp3")
+button_click_sound = pygame.mixer.Sound("sounds/button_select_short.mp3")
 game_over_sound = pygame.mixer.Sound("sounds/game_over_sound.mp3")
 dis=pygame.display.set_mode((DISPLAYX, DISPLAYY))
 CLOCK = pygame.time.Clock()
@@ -233,7 +233,7 @@ def game_loop(difficulty):
 def draw_game_area():
     #Loop through all the rows and corresponding columns to create "boxes"/grids 
     #on the play-area via Pygame rect objects.
-
+    dis.fill(WHITE)
     #1
     if get_current_background() == 1:
         dis.blit(grass_1, (0, 0))
@@ -416,14 +416,16 @@ def start_screen():
 
                 if event.key == K_p:
                     difficulty = random.choice([7, 15, 40])
+                    button_click_sound.play()
                     game_loop(difficulty)
                 elif event.key == K_s:
+                    button_click_sound.play()
                     settings_screen()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if mouse_on_button(easy_rect):
                     #easy button
                     button_click_sound.play()
-                    game_loop(7)
+                    game_loop(10)
                 elif mouse_on_button(normal_rect):
                     #normal button
                     button_click_sound.play()
@@ -472,6 +474,7 @@ def game_over(snake, obstacles, difficulty):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
+                    button_click_sound.play()
                     
                     game_loop(difficulty)
                 elif event.key == pygame.K_m:
